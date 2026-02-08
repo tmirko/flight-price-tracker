@@ -1,0 +1,31 @@
+{
+  "search_metadata": {
+    "id": "test-meta-id"
+  },
+  "best_flights": [
+    {
+      "price": 123,
+      "flights": [
+        {
+          "airline": "Air Test",
+          "duration": 120,
+          "departure_airport": {"time": "2026-03-01T10:00:00"},
+          "arrival_airport": {"time": "2026-03-01T12:00:00"}
+        }
+      ]
+    }
+  ],
+  "other_flights": [
+    {
+      "price": "$150",
+      "flights": [
+        {
+          "airline": "Air Other",
+          "duration": 140,
+          "departure_airport": {"time": "2026-03-01T11:00:00"},
+          "arrival_airport": {"time": "2026-03-01T13:20:00"}
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,23 @@
+route:
+  origin: VIE
+  destination: TGD
+
+window:
+  start_offset_days: 1
+  window_days: 30
+
+serpapi:
+  hl: en
+  gl: at
+  currency: EUR
+  adults: 1
+  travel_class: 1
+  deep_search: false
+  include_airlines:
+    - OS
+  top_n_offers: 5
+  rate_limit_seconds: 1.0
+
+reporting:
+  write_dated_report: true
+  top_k_deals: 5

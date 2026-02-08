@@ -1,0 +1,5 @@
+# This file was automatically generated
+name: flight_price_tracker
+type: duckdb
+options:
+  filename: ":memory:"

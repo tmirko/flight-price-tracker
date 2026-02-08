@@ -1,0 +1,24 @@
+.venv/
+
+# Python bytecode
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.ruff_cache/
+
+.env
+
+.dlt/
+
+# dlt metadata written inside `data/` (keep Parquet + reports/evidence, ignore state files)
+data/**/_dlt_loads/
+data/**/_dlt_pipeline_state/
+data/**/_dlt_version/
+data/**/init
+
+# Evidence.dev UI
+evidence_ui/node_modules/
+evidence_ui/build/
+evidence_ui/.evidence/
+evidence_ui/.svelte-kit/
+evidence_ui/static/data/

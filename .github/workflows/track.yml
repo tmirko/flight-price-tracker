@@ -1,0 +1,44 @@
+name: Track flight prices
+
+on:
+  schedule:
+    - cron: "0 6 * * *"
+  workflow_dispatch:
+
+jobs:
+  track:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.10"
+
+      - name: Setup uv
+        uses: astral-sh/setup-uv@v3
+
+      - name: Install dependencies
+        run: uv sync --frozen --dev
+
+      - name: Write .env
+        run: |
+          echo "SERPAPI_API_KEY=${{ secrets.SERPAPI_API_KEY }}" > .env
+
+      - name: Run tracker
+        run: uv run flight-price-tracker run --config config.yaml
+
+      - name: Commit outputs
+        run: |
+          if [[ -n "$(git status --porcelain)" ]]; then
+            git config user.name "github-actions[bot]"
+            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            git add data evidence reports
+            git commit -m "Track flight prices"
+            git push
+          fi
