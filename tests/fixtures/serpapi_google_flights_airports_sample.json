@@ -1,0 +1,35 @@
+{
+  "search_metadata": {"id": "test-meta-id"},
+  "airports": [
+    {
+      "departure": [{"airport": {"id": "VIE"}}],
+      "arrival": [{"airport": {"id": "TGD"}}],
+      "other_flights": [
+        {
+          "booking_token": "token-expensive",
+          "price": 225,
+          "flights": [
+            {
+              "airline": "Air Expensive",
+              "duration": 80,
+              "departure_airport": {"time": "2026-02-20T13:00:00"},
+              "arrival_airport": {"time": "2026-02-20T14:20:00"}
+            }
+          ]
+        },
+        {
+          "booking_token": "token-cheap",
+          "price": 148,
+          "flights": [
+            {
+              "airline": "Air Cheap",
+              "duration": 100,
+              "departure_airport": {"time": "2026-02-20T22:15:00"},
+              "arrival_airport": {"time": "2026-02-20T23:55:00"}
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

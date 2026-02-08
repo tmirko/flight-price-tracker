@@ -9,9 +9,6 @@ from hashlib import sha256
 from pathlib import Path
 from typing import Any
 
-import dlt
-from dlt.destinations import filesystem
-
 from flight_price_tracker.dlt_source import build_resources
 from flight_price_tracker.normalize import cheapest_offer, extract_offers
 from flight_price_tracker.report import EvidenceRef, build_report_markdown, load_previous_prices
@@ -183,6 +180,9 @@ def _load_with_dlt(
         search_runs_rows: Rows for the `search_runs` table.
         offers_rows: Rows for the `offers` table.
     """
+    import dlt
+    from dlt.destinations import filesystem
+
     data_root.mkdir(parents=True, exist_ok=True)
 
     destination = filesystem(

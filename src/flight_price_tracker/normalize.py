@@ -26,39 +26,57 @@ def extract_offers(
     """
     offers: list[dict[str, Any]] = []
 
-    for bucket_name in ("best_flights", "other_flights"):
-        bucket = response.get(bucket_name)
-        if not isinstance(bucket, list):
-            continue
-        for entry in bucket:
-            if not isinstance(entry, dict):
+    seen_booking_tokens: set[str] = set()
+
+    containers: list[dict[str, Any]] = [response]
+    airports = response.get("airports")
+    if isinstance(airports, list):
+        for a in airports:
+            if isinstance(a, dict):
+                containers.append(a)
+
+    for container in containers:
+        for bucket_name in ("best_flights", "other_flights"):
+            bucket = container.get(bucket_name)
+            if not isinstance(bucket, list):
                 continue
-            price, currency = _extract_price(entry, default_currency=default_currency)
-            if price is None:
-                continue
+            for entry in bucket:
+                if not isinstance(entry, dict):
+                    continue
 
-            flights = entry.get("flights")
-            if not isinstance(flights, list):
-                flights = []
+                booking_token = entry.get("booking_token")
+                if isinstance(booking_token, str) and booking_token in seen_booking_tokens:
+                    continue
 
-            airlines = _extract_airlines(flights, entry)
-            depart_time, arrive_time = _extract_times(flights)
-            duration_minutes = _extract_duration_minutes(entry, flights)
-            stops = _extract_stops(entry, flights)
+                price, currency = _extract_price(entry, default_currency=default_currency)
+                if price is None:
+                    continue
 
-            offers.append(
-                {
-                    "outbound_date": outbound_date,
-                    "bucket": bucket_name,
-                    "price": price,
-                    "currency": currency,
-                    "airlines": airlines,
-                    "depart_time": depart_time,
-                    "arrive_time": arrive_time,
-                    "duration_minutes": duration_minutes,
-                    "stops": stops,
-                }
-            )
+                flights = entry.get("flights")
+                if not isinstance(flights, list):
+                    flights = []
+
+                airlines = _extract_airlines(flights, entry)
+                depart_time, arrive_time = _extract_times(flights)
+                duration_minutes = _extract_duration_minutes(entry, flights)
+                stops = _extract_stops(entry, flights)
+
+                offers.append(
+                    {
+                        "outbound_date": outbound_date,
+                        "bucket": bucket_name,
+                        "price": price,
+                        "currency": currency,
+                        "airlines": airlines,
+                        "depart_time": depart_time,
+                        "arrive_time": arrive_time,
+                        "duration_minutes": duration_minutes,
+                        "stops": stops,
+                    }
+                )
+
+                if isinstance(booking_token, str):
+                    seen_booking_tokens.add(booking_token)
 
     offers.sort(
         key=lambda o: (o["price"], o.get("stops") if o.get("stops") is not None else 9999)

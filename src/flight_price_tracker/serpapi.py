@@ -8,9 +8,10 @@ from __future__ import annotations
 import json
 import re
 from collections.abc import Mapping
-from typing import Any
+from typing import TYPE_CHECKING, Any
 
-from dlt.sources.rest_api import RESTAPIConfig, rest_api_resources
+if TYPE_CHECKING:
+    from dlt.sources.rest_api import RESTAPIConfig
 
 
 class SerpApiError(RuntimeError):
@@ -33,6 +34,8 @@ def search_google_flights(
     Returns:
         A tuple of (parsed_response_json, raw_json_string).
     """
+    from dlt.sources.rest_api import rest_api_resources
+
     merged = {**dict(params), "api_key": api_key, "engine": "google_flights"}
 
     # Note: we intentionally do not pass a custom `session` object here because it must be

@@ -4,8 +4,6 @@ from __future__ import annotations
 
 from typing import Any
 
-import dlt
-
 
 def build_resources(
     *,
@@ -21,6 +19,8 @@ def build_resources(
     Returns:
         A list of configured dlt resources.
     """
+    import dlt
+
     return [
         dlt.resource(
             search_runs_rows,
